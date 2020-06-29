@@ -769,20 +769,24 @@ extension Target.Dependency: ExpressibleByStringLiteral {
 public struct TargetDependencyCondition: Encodable {
 
     private let platforms: [Platform]?
+    private let config: BuildConfiguration?
 
-    private init(platforms: [Platform]?) {
+    private init(platforms: [Platform]?, config: BuildConfiguration) {
         self.platforms = platforms
+        self.config = config
     }
 
     /// Creates a target dependency condition.
     ///
     /// - Parameters:
     ///   - platforms: The applicable platforms for this target dependency condition.
+    ///   - configuration: The applicable build configuration for this build setting condition.
     public static func when(
         platforms: [Platform]? = nil
+        configuration: BuildConfiguration? = nil
     ) -> TargetDependencyCondition {
         // FIXME: This should be an error, not a precondition.
         precondition(!(platforms == nil))
-        return TargetDependencyCondition(platforms: platforms)
+        return TargetDependencyCondition(platforms: platforms, config: configuration)
     }
 }
